@@ -35,12 +35,14 @@ document.getElementById("btn1").dataset.type="updateData"
     document.getElementById('pname').value = product.name;
     document.getElementById('pprice').value = product.price;
     document.getElementById('ptext').value = product.disc;
+
+    // base64String = product.img;
     const previewImg = document.querySelector('#pimg');
     previewImg.src = product.img;
-    previewImg.style.display = 'block'
+    previewImg.style.display = 'block';
 }
 
-
+let isAscending = true;
 document.querySelectorAll(".btn").forEach((button) => {
     button.addEventListener("click", () => {
         switch (button.dataset.type) {
@@ -103,6 +105,16 @@ document.querySelectorAll(".btn").forEach((button) => {
                 console.log(productId)
                 deleteProduct(productId); 
                 break;
+            
+            case "sort":
+                    toggleSort();
+                    break;
+            case "namesort":
+                    toggleSortByName();
+                    break;  
+            case "pricesort":
+                toggleSortByPrice();
+                    break;        
         }
     });
 });
@@ -127,4 +139,71 @@ function deleteProduct(id) {
         localStorage.setItem('crud', JSON.stringify(data));
         renderProducts();
     }
+}
+
+function toggleSort() {
+
+    if (isAscending) {
+        sortByIdDescending();
+    } else {
+        sortByIdAscending();
+    }
+    isAscending = !isAscending;
+}
+
+function sortByIdAscending() {
+    data.sort((a, b) => a.id - b.id);  
+    renderProducts();  
+}
+
+
+function sortByIdDescending() {
+    data.sort((a, b) => b.id - a.id); 
+    renderProducts();  
+}
+
+function toggleSortByName() {
+    
+    if (isAscending) {
+        sortByNameDescending();
+    } else {
+        sortByNameAscending();
+    }
+
+    isAscending = !isAscending;
+}
+
+
+function sortByNameAscending() {
+    data.sort((a, b) => a.name.localeCompare(b.name));  
+    renderProducts(); 
+}
+
+
+function sortByNameDescending() {
+    data.sort((a, b) => b.name.localeCompare(a.name)); 
+    renderProducts();  
+}
+
+function toggleSortByPrice() {
+    
+    if (isAscending) {
+        sortByPriceDescending();
+    } else {
+        sortByPriceAscending();
+    }
+    
+    isAscending = !isAscending;
+}
+
+
+function sortByPriceAscending() {
+    data.sort((a, b) => a.price - b.price);  
+    renderProducts();  
+}
+
+
+function sortByPriceDescending() {
+    data.sort((a, b) => b.price - a.price);  
+    renderProducts();  
 }
