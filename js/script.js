@@ -26,15 +26,15 @@ function renderProducts(filteredData = data) {
         tbody.appendChild(row);
         return;
     }
-   filteredData.forEach(item => {
+    filteredData.forEach(item => {
         const row = document.createElement('tr');
-    
+
         const idCell = document.createElement('td');
         idCell.innerHTML = item.id;
-    
+
         const nameCell = document.createElement('td');
         nameCell.innerHTML = item.name;
-    
+
         const imgCell = document.createElement('td');
         const image = document.createElement('img');
         image.src = item.img;
@@ -104,22 +104,22 @@ fileInput.addEventListener('change', async (e) => {
 
 function toggleSort(field) {
     const ascending = isAscending;
-data.sort((a, b) => {
- if (field === 'name') {
-    return ascending
+    data.sort((a, b) => {
+        if (field === 'name') {
+            return ascending
                 ? a[field].localeCompare(b[field])
                 : b[field].localeCompare(a[field]);
         } else if (field === 'price') {
-    return ascending
+            return ascending
                 ? parseFloat(a[field]) - parseFloat(b[field])
                 : parseFloat(b[field]) - parseFloat(a[field]);
         } else {
- return ascending
+            return ascending
                 ? a[field] - b[field]
                 : b[field] - a[field];
         }
     });
- isAscending = !isAscending;
+    isAscending = !isAscending;
     renderProducts();
 }
 
@@ -150,7 +150,6 @@ document.querySelectorAll(".btn").forEach((button) => {
 
 function deleteProduct(id) {
     const productIndex = data.findIndex(item => item.id == id);
-    console.log(productIndex);
     if (productIndex !== -1) {
         data.splice(productIndex, 1);
         localStorage.setItem('crud', JSON.stringify(data));
