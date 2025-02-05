@@ -77,7 +77,6 @@ function renderProducts(filteredData = data) {
 }
 renderProducts();
 
-
 let idForUpadate = ""
 
 function editProduct(id) {
@@ -104,8 +103,12 @@ fileInput.addEventListener('change', async (e) => {
 
 function toggleSort(field) {
     const ascending = isAscending;
+    const idSortIcon = document.getElementById('id-sort');
+    const nameSortIcon = document.getElementById('name-sort');
+    const priceSortIcon = document.getElementById('price-sort');
     data.sort((a, b) => {
         if (field === 'name') {
+
             return ascending
                 ? a[field].localeCompare(b[field])
                 : b[field].localeCompare(a[field]);
@@ -120,8 +123,38 @@ function toggleSort(field) {
         }
     });
     isAscending = !isAscending;
+    if (field === 'id') {
+        console.log(isAscending)
+        if (isAscending) {
+            idSortIcon.classList.remove("fa-sort-up");
+            idSortIcon.classList.add("fa-sort-down");
+        }
+        else {
+            idSortIcon.classList.remove("fa-sort");
+            idSortIcon.classList.add("fa-sort-up");
+        }
+    }
+    else if (field === 'name') {
+        if (isAscending) {
+            nameSortIcon.classList.remove("fa-sort-up");
+            nameSortIcon.classList.add("fa-sort-down");
+        } else {
+            nameSortIcon.classList.remove("fa-sort");
+            nameSortIcon.classList.add("fa-sort-up");
+        }
+    }
+    else if (field === 'price') {
+        if (isAscending) {
+            priceSortIcon.classList.remove("fa-sort-up");
+            priceSortIcon.classList.add("fa-sort-down");
+        } else {
+            priceSortIcon.classList.remove("fa-sort");
+            priceSortIcon.classList.add("fa-sort-up");
+        }
+    }
     renderProducts();
 }
+
 
 let isAscending = true;
 document.querySelectorAll(".btn").forEach((button) => {

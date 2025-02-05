@@ -20,7 +20,7 @@
             </div>
             <div class="mb-3">
                 <label for="pimg" class="form-label">Product Image:</label>
-                <input type="file" class="form-control" id="pimg">
+                <input type="file" class="form-control" id="pimg" accept = ".jpeg,.png">
             </div>
             <div class="mb-3">
                 <label for="pprice" class="form-label">Product Price:</label>
@@ -40,10 +40,10 @@
         <table id="table" class="table">
             <thead>
                 <tr>
-                    <th scope="col"><i class="fa-solid fa-sort btn" data-type="sort"></i>ID</th>
-                    <th scope="col"><i class="fa-solid fa-sort btn" data-type="namesort"></i>Name</th>
+                    <th scope="col"><i class="fa-solid fa-sort btn" data-type="sort" id="id-sort"></i>ID</th>
+                    <th scope="col"><i class="fa-solid fa-sort btn" data-type="namesort" id="name-sort"></i>Name</th>
                     <th scope="col">Image</th>
-                    <th scope="col"><i class="fa-solid fa-sort btn" data-type="pricesort"></i>Price</th>
+                    <th scope="col"><i class="fa-solid fa-sort btn" data-type="pricesort" id="price-sort"></i>Price</th>
                     <th scope="col">Description</th>
                     <th scope="col">Action</th>
                 </tr>
