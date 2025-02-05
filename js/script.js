@@ -108,7 +108,6 @@ function toggleSort(field) {
     const priceSortIcon = document.getElementById('price-sort');
     data.sort((a, b) => {
         if (field === 'name') {
-
             return ascending
                 ? a[field].localeCompare(b[field])
                 : b[field].localeCompare(a[field]);
