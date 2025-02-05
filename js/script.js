@@ -9,48 +9,89 @@ searchInput.addEventListener('input', function () {
         const filteredData = data.filter(item => item.id == searchValue || item.name.includes(searchValue));
         renderProducts(filteredData);
     } else {
-
         renderProducts(data);
     }
 });
+
 function renderProducts(filteredData = data) {
     const tbody = document.querySelector('#table tbody');
     tbody.innerHTML = '';
     if (filteredData.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="text-center">No product found</td></tr>';
+        const row = document.createElement('tr');
+        const cell = document.createElement('td');
+        cell.colSpan = 6;
+        cell.classList.add('text-center');
+        cell.innerHTML = 'No product found';
+        row.appendChild(cell);
+        tbody.appendChild(row);
         return;
     }
-    filteredData.forEach(item => {
+   filteredData.forEach(item => {
         const row = document.createElement('tr');
-        row.innerHTML += `
-            <td>${item.id}</td>
-            <td>${item.name}</td>
-            <td><img src ="${item.img}" height=50px></td>
-            <td>${item.price}</td>
-            <td>${item.disc}</td>
-            <td>
-                <button class="btn btn-primary" data-type="editdata" data-id="${item.id}">Edit</button>
-                <button class="btn btn-primary" data-type="deldata" data-id="${item.id}">Delete</button>
-            </td>
-        `;
+    
+        const idCell = document.createElement('td');
+        idCell.innerHTML = item.id;
+    
+        const nameCell = document.createElement('td');
+        nameCell.innerHTML = item.name;
+    
+        const imgCell = document.createElement('td');
+        const image = document.createElement('img');
+        image.src = item.img;
+        image.height = 50;
+        imgCell.appendChild(image);
+
+        const priceCell = document.createElement('td');
+        priceCell.innerHTML = item.price;
+
+        const descriptionCell = document.createElement('td');
+        descriptionCell.innerHTML = item.disc;
+
+        const actionCell = document.createElement('td');
+        const editBtn = document.createElement('button');
+        editBtn.classList.add('btn', 'btn-primary');
+        editBtn.setAttribute('data-type', 'editdata');
+        editBtn.setAttribute('data-id', item.id);
+        editBtn.innerHTML = 'Edit';
+        editBtn.addEventListener('click', () => editProduct(item.id));
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.classList.add('btn', 'btn-primary');
+        deleteBtn.setAttribute('data-type', 'deldata');
+        deleteBtn.setAttribute('data-id', item.id);
+        deleteBtn.innerHTML = 'Delete';
+        deleteBtn.addEventListener('click', () => deleteProduct(item.id));
+
+        actionCell.appendChild(editBtn);
+        actionCell.appendChild(deleteBtn);
+
+        row.appendChild(idCell);
+        row.appendChild(nameCell);
+        row.appendChild(imgCell);
+        row.appendChild(priceCell);
+        row.appendChild(descriptionCell);
+        row.appendChild(actionCell);
+
         tbody.appendChild(row);
     });
 }
-renderProducts()
+renderProducts();
+
+
 let idForUpadate = ""
+
 function editProduct(id) {
     document.getElementById('form').dataset.form = "edit";
     let product = data.find(item => item.id == id);
-    document.getElementById("btn1").dataset.type = "updateData"
     idForUpadate = id;
     document.getElementById('pname').value = product.name;
     document.getElementById('pprice').value = product.price;
     document.getElementById('ptext').value = product.disc;
-    // base64String = product.img;
     let previewImg = document.querySelector('#pimg');
     previewImg.src = product.img;
     previewImg.style.display = 'block';
 }
+
 fileInput.addEventListener('change', async (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -60,76 +101,48 @@ fileInput.addEventListener('change', async (e) => {
     };
     reader.readAsDataURL(file);
 });
-function toggleSort() {
-    if (isAscending) {
-        sortByIdDescending();
-    } else {
-        sortByIdAscending();
-    }
-    isAscending = !isAscending;
-}
-function sortByIdAscending() {
-    data.sort((a, b) => a.id - b.id);
+
+function toggleSort(field) {
+    const ascending = isAscending;
+data.sort((a, b) => {
+ if (field === 'name') {
+    return ascending
+                ? a[field].localeCompare(b[field])
+                : b[field].localeCompare(a[field]);
+        } else if (field === 'price') {
+    return ascending
+                ? parseFloat(a[field]) - parseFloat(b[field])
+                : parseFloat(b[field]) - parseFloat(a[field]);
+        } else {
+ return ascending
+                ? a[field] - b[field]
+                : b[field] - a[field];
+        }
+    });
+ isAscending = !isAscending;
     renderProducts();
 }
-function sortByIdDescending() {
-    data.sort((a, b) => b.id - a.id);
-    renderProducts();
-}
-function toggleSortByName() {
-    if (isAscending) {
-        sortByNameDescending();
-    } else {
-        sortByNameAscending();
-    }
-    isAscending = !isAscending;
-}
-function sortByNameAscending() {
-    data.sort((a, b) => a.name.localeCompare(b.name));
-    renderProducts();
-}
-function sortByNameDescending() {
-    data.sort((a, b) => b.name.localeCompare(a.name));
-    renderProducts();
-}
-function toggleSortByPrice() {
-    if (isAscending) {
-        sortByPriceDescending();
-    } else {
-        sortByPriceAscending();
-    }
-    isAscending = !isAscending;
-}
-function sortByPriceAscending() {
-    data.sort((a, b) => a.price - b.price);
-    renderProducts();
-}
-function sortByPriceDescending() {
-    data.sort((a, b) => b.price - a.price);
-    renderProducts();
-}
+
 let isAscending = true;
 document.querySelectorAll(".btn").forEach((button) => {
     button.addEventListener("click", () => {
         switch (button.dataset.type) {
             case "editdata":
                 const ProductID = button.dataset.id;
-                console.log(ProductID);
                 editProduct(ProductID);
                 break;
             case "deldata":
                 const productId = button.dataset.id;
-                console.log(productId);
                 deleteProduct(productId);
                 break;
             case "sort":
-                toggleSort();
+                toggleSort('id');
                 break;
             case "namesort":
-                toggleSortByName();
+                toggleSort('name');
                 break;
             case "pricesort":
-                toggleSortByPrice();
+                toggleSort('price');
                 break;
         }
     });
@@ -144,6 +157,7 @@ function deleteProduct(id) {
         window.location.reload();
     }
 }
+
 function addData() {
     let name = document.getElementById("pname").value;
     let price = document.getElementById("pprice").value;
@@ -161,8 +175,8 @@ function addData() {
     localStorage.setItem('crud', JSON.stringify(data));
     renderProducts();
 }
+
 function editData() {
-    debugger;
     const updatedName = document.getElementById("pname").value;
     const updatedImg = base64String || data.find(item => item.id === parseInt(idForUpadate)).img;
     const updatedPrice = document.getElementById("pprice").value;
