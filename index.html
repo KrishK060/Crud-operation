@@ -13,14 +13,10 @@
 
 <body>
     <div class="container">
-        <form action="#">
-            <div class="mb-3">
-                <label for="pid" class="form-label">Product ID:</label>
-                <input type="number" class="form-control" id="pid" aria-describedby="emailHelp">
-            </div>
+        <form action="./index.html" id="form" data-form="add">
             <div class="mb-3">
                 <label for="pname" class="form-label">Product Name:</label>
-                <input type="text" class="form-control" id="pname">
+                <input type="text" class="form-control" id="pname" required>
             </div>
             <div class="mb-3">
                 <label for="pimg" class="form-label">Product Image:</label>
@@ -28,14 +24,18 @@
             </div>
             <div class="mb-3">
                 <label for="pprice" class="form-label">Product Price:</label>
-                <input type="number" class="form-control" id="pprice" aria-describedby="emailHelp">
+                <input type="number" class="form-control" id="pprice" aria-describedby="emailHelp" required>
             </div>
             <div class="mb-3">
                 <label for="ptext" class="form-label">Description:</label>
-                <input type="textarea" class="form-control" id="ptext" aria-describedby="emailHelp">
+                <input type="textarea" class="form-control" id="ptext" aria-describedby="emailHelp" required>
             </div>
-
-            <button type="submit" id="btn1"class="btn btn-primary" data-type="adddata">Submit</button>
+            <div class="mb-3">
+                <label for="pinput" class="form-label">Search:</label>
+                <input type="input" class="form-control" id="pinput" aria-describedby="emailHelp"
+                    placeholder="search the product by its ID">
+            </div>
+            <button type="submit" id="btn1" class="btn btn-primary" data-type="adddata">Submit</button>
         </form>
         <table id="table" class="table">
             <thead>
@@ -51,7 +51,6 @@
             <tbody></tbody>
         </table>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
         crossorigin="anonymous"></script>
