@@ -4,13 +4,13 @@ let data = JSON.parse(localStorage.getItem('crud')) || [];
 const searchInput = document.querySelector('#pinput');
 
 searchInput.addEventListener('input', function () {
-    const searchValue = searchInput.value.trim(); 
+    const searchValue = searchInput.value.trim();
     if (searchValue !== "") {
-        const filteredData = data.filter(item => item.id == searchValue);
-        renderProducts(filteredData);  
+        const filteredData = data.filter(item => item.id == searchValue || item.name.includes(searchValue));
+        renderProducts(filteredData);
     } else {
-      
-        renderProducts(data);  
+
+        renderProducts(data);
     }
 });
 function renderProducts(filteredData = data) {
@@ -20,7 +20,7 @@ function renderProducts(filteredData = data) {
         tbody.innerHTML = '<tr><td colspan="6" class="text-center">No product found</td></tr>';
         return;
     }
-filteredData.forEach(item => {
+    filteredData.forEach(item => {
         const row = document.createElement('tr');
         row.innerHTML += `
             <td>${item.id}</td>
@@ -42,11 +42,11 @@ function editProduct(id) {
     document.getElementById('form').dataset.form = "edit";
     let product = data.find(item => item.id == id);
     document.getElementById("btn1").dataset.type = "updateData"
-idForUpadate = id;
+    idForUpadate = id;
     document.getElementById('pname').value = product.name;
     document.getElementById('pprice').value = product.price;
     document.getElementById('ptext').value = product.disc;
-// base64String = product.img;
+    // base64String = product.img;
     let previewImg = document.querySelector('#pimg');
     previewImg.src = product.img;
     previewImg.style.display = 'block';
@@ -54,11 +54,11 @@ idForUpadate = id;
 fileInput.addEventListener('change', async (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
-reader.onloadend = function () {
+    reader.onloadend = function () {
         base64String = reader.result;
         console.log(base64String);
     };
-reader.readAsDataURL(file);
+    reader.readAsDataURL(file);
 });
 function toggleSort() {
     if (isAscending) {
@@ -77,7 +77,7 @@ function sortByIdDescending() {
     renderProducts();
 }
 function toggleSortByName() {
-if (isAscending) {
+    if (isAscending) {
         sortByNameDescending();
     } else {
         sortByNameAscending();
@@ -120,7 +120,7 @@ document.querySelectorAll(".btn").forEach((button) => {
             case "deldata":
                 const productId = button.dataset.id;
                 console.log(productId);
-                deleteProduct(productId); 
+                deleteProduct(productId);
                 break;
             case "sort":
                 toggleSort();
@@ -139,8 +139,8 @@ function deleteProduct(id) {
     const productIndex = data.findIndex(item => item.id == id);
     console.log(productIndex);
     if (productIndex !== -1) {
-        data.splice(productIndex, 1);  
-        localStorage.setItem('crud', JSON.stringify(data));  
+        data.splice(productIndex, 1);
+        localStorage.setItem('crud', JSON.stringify(data));
         window.location.reload();
     }
 }
