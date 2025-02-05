@@ -124,7 +124,6 @@ function toggleSort(field) {
     });
     isAscending = !isAscending;
     if (field === 'id') {
-        console.log(isAscending)
         if (isAscending) {
             idSortIcon.classList.remove("fa-sort-up");
             idSortIcon.classList.add("fa-sort-down");
@@ -154,7 +153,6 @@ function toggleSort(field) {
     }
     renderProducts();
 }
-
 
 let isAscending = true;
 document.querySelectorAll(".btn").forEach((button) => {
