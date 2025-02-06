@@ -96,7 +96,6 @@ fileInput.addEventListener('change', async (e) => {
     const reader = new FileReader();
     reader.onloadend = function () {
         base64String = reader.result;
-        console.log(base64String);
     };
     reader.readAsDataURL(file);
 });
@@ -200,7 +199,6 @@ function addData() {
         disc,
     }
     data.push(data1);
-    console.log(data);
     localStorage.setItem('crud', JSON.stringify(data));
     renderProducts();
 }
@@ -226,6 +224,5 @@ function editData() {
 }
 let form = document.querySelector("#form")
 form.addEventListener("submit", () => {
-    console.log(form.dataset.form);
     (form.dataset.form == "add") ? addData() : editData()
 })
