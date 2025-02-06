@@ -125,26 +125,23 @@ function toggleSort(field) {
         if (isAscending) {
             idSortIcon.classList.remove("fa-sort-up");
             idSortIcon.classList.add("fa-sort-down");
-        }
-        else {
+        }else {
             idSortIcon.classList.remove("fa-sort");
             idSortIcon.classList.add("fa-sort-up");
         }
-    }
-    else if (field === 'name') {
+    }else if (field === 'name') {
         if (isAscending) {
             nameSortIcon.classList.remove("fa-sort-up");
             nameSortIcon.classList.add("fa-sort-down");
-        } else {
+        }else {
             nameSortIcon.classList.remove("fa-sort");
             nameSortIcon.classList.add("fa-sort-up");
         }
-    }
-    else if (field === 'price') {
+    }else if (field === 'price') {
         if (isAscending) {
             priceSortIcon.classList.remove("fa-sort-up");
             priceSortIcon.classList.add("fa-sort-down");
-        } else {
+        }else {
             priceSortIcon.classList.remove("fa-sort");
             priceSortIcon.classList.add("fa-sort-up");
         }
